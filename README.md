@@ -1,6 +1,6 @@
 [![Build Status](https://github.com/jaxon-php/jaxon-config/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/jaxon-php/jaxon-config/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jaxon-php/jaxon-config/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/jaxon-php/jaxon-config/?branch=main)
-[![StyleCI](https://styleci.io/repos/461786330/shield?branch=main)](https://styleci.io/repos/461786330)
+[![StyleCI](https://styleci.io/repos/916318447/shield?branch=main)](https://styleci.io/repos/916318447)
 [![Coverage](https://codecov.io/gh/jaxon-php/jaxon-config/branch/main/graph/badge.svg?token=MKqDVnW7eJ)](https://codecov.io/gh/jaxon-php/jaxon-config)
 
 [![Latest Stable Version](https://poser.pugx.org/jaxon-php/jaxon-config/v/stable)](https://packagist.org/packages/jaxon-php/jaxon-config)
