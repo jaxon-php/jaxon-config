@@ -64,7 +64,7 @@ $config->getOption('a.b.c'); // Returns 'Value'
 Set a single value.
 
 ```php
-$setter->setOption($config, 'a.b.d', 'Another value');
+$config = $setter->setOption($config, 'a.b.d', 'Another value');
 ```
 
 Read values.
