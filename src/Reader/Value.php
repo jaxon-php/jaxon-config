@@ -51,14 +51,14 @@ class Value
     /**
      * Get an array of options names
      *
-     * @param string $sName
+     * @param string $sOptionName
      *
      * @return array
      */
-    public static function explodeName(string $sName): array
+    public static function explodeName(string $sOptionName): array
     {
-        $aNames = explode('.', $sName);
-        $aNames = array_map(fn($sVal) => trim($sVal), $aNames);
-        return array_filter($aNames, fn($sVal) => $sVal !== '');
+        $aNames = explode('.', $sOptionName);
+        $aNames = array_map(fn($sName) => trim($sName), $aNames);
+        return array_filter($aNames, fn($sName) => $sName !== '');
     }
 }

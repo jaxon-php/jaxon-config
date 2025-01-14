@@ -44,6 +44,7 @@ Create an empty config object and set values.
 ```php
 /** @var \Jaxon\Config\Config */
 $config = $setter->newConfig();
+// A new config object is returned.
 $config = $setter->setOptions($config, [
     'a' => [
         'b' => [
@@ -64,6 +65,7 @@ $config->getOption('a.b.c'); // Returns 'Value'
 Set a single value.
 
 ```php
+// A new config object is returned.
 $config = $setter->setOption($config, 'a.b.d', 'Another value');
 ```
 
@@ -79,6 +81,7 @@ $config->getOption('a.b.d'); // Returns 'Another value'
 Set values with a prefix.
 
 ```php
+// A new config object is returned.
 $config = $setter->setOptions($config, [
     'd' => [
         'e' => 'Overwritten value',
@@ -105,5 +108,6 @@ $reader = new \Jaxon\Config\ConfigReader(new \Jaxon\Config\ConfigSetter());
 Read config options from a file.
 
 ```php
+// A new config object is returned.
 $config = $reader->load($config, '/path/to/config/file.php');
 ```

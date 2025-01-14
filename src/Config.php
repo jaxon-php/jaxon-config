@@ -17,10 +17,8 @@ namespace Jaxon\Config;
 use Jaxon\Config\Reader\Value;
 
 use function array_combine;
-use function array_filter;
 use function array_keys;
 use function array_map;
-use function count;
 use function trim;
 
 class Config
@@ -95,8 +93,7 @@ class Config
         {
             $aValues = $aValues[$_sKey] ?? [];
         }
-        $aValues = array_filter($aValues, fn($xValue) => Value::containsOptions($xValue));
-        if(count($aValues) === 0)
+        if(!Value::containsOptions($aValues))
         {
             return [];
         }

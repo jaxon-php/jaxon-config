@@ -124,16 +124,16 @@ class ConfigSetter
         foreach($aOptions as $sName => $xValue)
         {
             $sName = trim($sName);
-            if(Value::containsOptions($xValue))
+            if(!Value::containsOptions($xValue))
             {
-                // Recursively set the options in the array. Important to set a new var.
-                $sNextPrefix = $sNamePrefix . $sName . '.';
-                $aValues = $this->setValues($aValues, $xValue, $sNextPrefix, $nDepth + 1);
+                // Save the value of this option
+                $aValues = $this->setValue($aValues, $sNamePrefix . $sName, $xValue);
                 continue;
             }
 
-            // Save the value of this option
-            $aValues = $this->setValue($aValues, $sNamePrefix . $sName, $xValue);
+            // Recursively set the options in the array. Important to set a new var.
+            $sNextPrefix = $sNamePrefix . $sName . '.';
+            $aValues = $this->setValues($aValues, $xValue, $sNextPrefix, $nDepth + 1);
         }
         return $aValues;
     }
