@@ -1,13 +1,109 @@
 [![Build Status](https://github.com/jaxon-php/jaxon-config/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/jaxon-php/jaxon-config/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jaxon-php/jaxon-config/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/jaxon-php/jaxon-config/?branch=main)
 [![StyleCI](https://styleci.io/repos/916318447/shield?branch=main)](https://styleci.io/repos/916318447)
-[![Coverage](https://codecov.io/gh/jaxon-php/jaxon-config/branch/main/graph/badge.svg?token=MKqDVnW7eJ)](https://codecov.io/gh/jaxon-php/jaxon-config)
+[![codecov](https://codecov.io/gh/jaxon-php/jaxon-config/graph/badge.svg?token=tgRCemFota)](https://codecov.io/gh/jaxon-php/jaxon-config)
 
 [![Latest Stable Version](https://poser.pugx.org/jaxon-php/jaxon-config/v/stable)](https://packagist.org/packages/jaxon-php/jaxon-config)
 [![Total Downloads](https://poser.pugx.org/jaxon-php/jaxon-config/downloads)](https://packagist.org/packages/jaxon-php/jaxon-config)
 [![License](https://poser.pugx.org/jaxon-php/jaxon-config/license)](https://packagist.org/packages/jaxon-php/jaxon-config)
 
-Utilities for the Jaxon library.
-===============================
+Jaxon Config
+============
 
-Utilities for the Jaxon library.
+Jaxon Config saves config options in immutable objects.
+
+**Install**
+
+```bash
+composer require jaxon-php/jaxon-config
+```
+
+**Usage**
+
+Create a config setter.
+
+```php
+$setter = new \Jaxon\Config\ConfigSetter();
+```
+
+Create a config object with initial value.
+
+```php
+/** @var \Jaxon\Config\Config */
+$config = $setter->newConfig([
+    'a' => [
+        'b' => [
+            'c' => 'Value',
+        ],
+    ],
+]);
+```
+
+Create an empty config object and set values.
+
+```php
+/** @var \Jaxon\Config\Config */
+$config = $setter->newConfig();
+$config = $setter->setOptions($config, [
+    'a' => [
+        'b' => [
+            'c' => 'Value',
+        ],
+    ],
+]);
+```
+
+Read values.
+
+```php
+$config->getOption('a'); // Returns ['b' => ['c' => 'Value']]
+$config->getOption('a.b'); // Returns ['c' => 'Value']
+$config->getOption('a.b.c'); // Returns 'Value'
+```
+
+Set a single value.
+
+```php
+$setter->setOption($config, 'a.b.d', 'Another value');
+```
+
+Read values.
+
+```php
+$config->getOption('a'); // Returns ['b' => ['c' => 'Value', 'd' => 'Another value']]
+$config->getOption('a.b'); // Returns ['c' => 'Value', 'd' => 'Another value']
+$config->getOption('a.b.c'); // Returns 'Value'
+$config->getOption('a.b.d'); // Returns 'Another value'
+```
+
+Set values with a prefix.
+
+```php
+$config = $setter->setOptions($config, [
+    'd' => [
+        'e' => 'Overwritten value',
+    ],
+    'f' => ['Array', 'Of', 'Values'],
+], 'a.b');
+```
+
+Read values.
+
+```php
+$config->getOption('a.b'); // Returns ['c' => 'Value', 'd' => ['e' => 'Overwritten value']]
+$config->getOption('a.b.d'); // Returns ['e' => 'Overwritten value']
+$config->getOption('a.b.d.e'); // Returns 'Overwritten value'
+$config->getOption('a.b.f'); // Returns ['Array', 'Of', 'Values']
+```
+
+Create a config reader.
+
+```php
+$reader = new \Jaxon\Config\ConfigReader(new \Jaxon\Config\ConfigSetter());
+```
+
+Read config options from a file.
+
+```php
+$config = $reader->load($config, '/path/to/config/file.php');
+```
