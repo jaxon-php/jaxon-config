@@ -5,7 +5,7 @@
  *
  * Read config values from files.
  *
- * @package jaxon-core
+ * @package jaxon-config
  * @author Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @copyright 2022 Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @license https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
@@ -26,7 +26,7 @@ class ConfigReader
     {}
 
     /**
-     * Read options from a config file
+     * Read options from a config file to an array
      *
      * @param string $sConfigFile The full path to the config file
      *
@@ -64,7 +64,7 @@ class ConfigReader
     }
 
     /**
-     * Read options from a config file and setup the library
+     * Read options from a config file to a config object
      *
      * @param Config $xConfig
      * @param string $sConfigFile The full path to the config file

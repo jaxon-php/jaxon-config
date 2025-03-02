@@ -5,7 +5,7 @@
  *
  * Read the config data from a YAML formatted config file.
  *
- * @package jaxon-core
+ * @package jaxon-config
  * @author Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @copyright 2022 Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @license https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
@@ -42,11 +42,13 @@ class YamlReader
         {
             throw new YamlExtension();
         }
+
         $sConfigFile = realpath($sConfigFile);
         if(!is_readable($sConfigFile))
         {
             throw new FileAccess($sConfigFile);
         }
+
         $aConfigOptions = yaml_parse_file($sConfigFile);
         if(!is_array($aConfigOptions))
         {

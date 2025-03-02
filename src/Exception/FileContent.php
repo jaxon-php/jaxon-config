@@ -5,7 +5,7 @@
  *
  * This exception is thrown when the config file cannot be read.
  *
- * @package jaxon-core
+ * @package jaxon-config
  * @author Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @copyright 2022 Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @license https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License

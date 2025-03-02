@@ -5,7 +5,7 @@
  *
  * Read the config data from a JSON formatted config file.
  *
- * @package jaxon-core
+ * @package jaxon-config
  * @author Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @copyright 2022 Thierry Feuzeu <thierry.feuzeu@gmail.com>
  * @license https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
@@ -41,6 +41,7 @@ class JsonReader
         {
             throw new FileAccess($sConfigFile);
         }
+
         $sFileContent = file_get_contents($sConfigFile);
         $aConfigOptions = json_decode($sFileContent, true);
         if(!is_array($aConfigOptions))
