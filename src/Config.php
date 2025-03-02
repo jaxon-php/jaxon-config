@@ -17,6 +17,7 @@ namespace Jaxon\Config;
 use Jaxon\Config\Reader\Value;
 
 use function array_combine;
+use function array_key_exists;
 use function array_keys;
 use function array_map;
 use function trim;
@@ -74,7 +75,7 @@ class Config
      */
     public function hasOption(string $sName): bool
     {
-        return isset($this->aValues[$sName]);
+        return array_key_exists($sName, $this->aValues);
     }
 
     /**
