@@ -39,6 +39,24 @@ $config = $setter->newConfig([
 ]);
 ```
 
+Create a config reader.
+
+```php
+$reader = new \Jaxon\Config\ConfigReader($setter);
+```
+
+Read config options from a file.
+
+```php
+// A new config object is returned.
+// From a PHP file.
+$config = $reader->load($config, '/path/to/config/file.php');
+// Or from a YAML file.
+$config = $reader->load($config, '/path/to/config/file.yaml');
+// Or from a JSON file.
+$config = $reader->load($config, '/path/to/config/file.json');
+```
+
 Create an empty config object and set values.
 
 ```php
@@ -99,15 +117,48 @@ $config->getOption('a.b.d.e'); // Returns 'Overwritten value'
 $config->getOption('a.b.f'); // Returns ['Array', 'Of', 'Values']
 ```
 
-Create a config reader.
+Create a new config object.
 
 ```php
-$reader = new \Jaxon\Config\ConfigReader(new \Jaxon\Config\ConfigSetter());
+/** @var \Jaxon\Config\Config */
+$config = $setter->newConfig([
+    'b' => [
+        'c' => 'Value',
+    ],
+    'd' => 'Value',
+    'e' => 'Value',
+    'f' => 'Value',
+], 'a');
 ```
 
-Read config options from a file.
+Read values.
+
+```php
+$config->getOption('a'); // Returns ['b' => ['c' => 'Value'], 'd' => 'Value', 'e' => 'Value', 'f' => 'Value']
+```
+
+Remove an entry.
 
 ```php
 // A new config object is returned.
-$config = $reader->load($config, '/path/to/config/file.php');
+$config = $setter->unsetOption($config, 'a.e');
+```
+
+Read values.
+
+```php
+$config->getOption('a'); // Returns ['b' => ['c' => 'Value'], 'd' => 'Value', 'f' => 'Value']
+```
+
+Remove multiple entries.
+
+```php
+// A new config object is returned.
+$config = $setter->unsetOptions($config, ['a.f', 'a.b']);
+```
+
+Read values.
+
+```php
+$config->getOption('a'); // Returns ['d' => 'Value']
 ```
