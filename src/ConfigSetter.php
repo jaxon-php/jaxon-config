@@ -17,11 +17,16 @@ namespace Jaxon\Config;
 use Jaxon\Config\Exception\DataDepth;
 use Jaxon\Config\Reader\Value;
 
+use function array_key_exists;
+use function array_keys;
 use function array_merge;
 use function array_pop;
 use function count;
 use function implode;
 use function is_array;
+use function rtrim;
+use function strlen;
+use function substr;
 use function trim;
 
 class ConfigSetter
@@ -175,5 +180,70 @@ class ConfigSetter
             $sNamePrefix .= '.';
         }
         return new Config($this->setValues($xConfig->getValues(), $aOptions, $sNamePrefix));
+    }
+
+    /**
+     * Unset a config option
+     *
+     * @param Config $xConfig
+     * @param string $sName The option name
+     *
+     * @return Config
+     */
+    public function unsetOption(Config $xConfig, string $sName): Config
+    {
+        return $this->unsetOptions($xConfig, [$sName]);
+    }
+
+    /**
+     * @param array $aValues The option values
+     * @param string $sName The option names
+     *
+     * @return bool
+     */
+    private function deleteEntries(array &$aValues, string $sName): bool
+    {
+        $sName = rtrim($sName, '.');
+        if(!array_key_exists($sName, $aValues))
+        {
+            return false;
+        }
+
+        // Delete all the corresponding entries.
+        unset($aValues[$sName]);
+        $sName .= '.';
+        $nNameLength = strlen($sName);
+        foreach(array_keys($aValues) as $sOptionName)
+        {
+            if(substr($sOptionName, 0, $nNameLength) === $sName)
+            {
+                unset($aValues[$sOptionName]);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Unset an array of config options
+     *
+     * @param Config $xConfig
+     * @param array<string> $aNames The option names
+     *
+     * @return Config
+     */
+    public function unsetOptions(Config $xConfig, array $aNames): Config
+    {
+        $aValues = $xConfig->getValues();
+        $bChanged = false;
+        foreach($aNames as $sName)
+        {
+            if($this->deleteEntries($aValues, $sName))
+            {
+                $bChanged = true;
+            }
+        }
+
+        // $bChanged is false in no entry was deleted.
+        return new Config($aValues, $bChanged);
     }
 }
