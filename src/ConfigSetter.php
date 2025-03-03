@@ -17,8 +17,8 @@ namespace Jaxon\Config;
 use Jaxon\Config\Exception\DataDepth;
 use Jaxon\Config\Reader\Value;
 
+use function array_filter;
 use function array_key_exists;
-use function array_keys;
 use function array_merge;
 use function array_pop;
 use function count;
@@ -197,30 +197,24 @@ class ConfigSetter
 
     /**
      * @param array $aValues The option values
-     * @param string $sName The option names
+     * @param string $sName The option name
      *
-     * @return bool
+     * @return array
      */
-    private function deleteEntries(array &$aValues, string $sName): bool
+    private function deleteEntries(array $aValues, string $sName): array
     {
         $sName = rtrim($sName, '.');
         if(!array_key_exists($sName, $aValues))
         {
-            return false;
+            return $aValues;
         }
 
-        // Delete all the corresponding entries.
-        unset($aValues[$sName]);
-        $sName .= '.';
-        $nNameLength = strlen($sName);
-        foreach(array_keys($aValues) as $sOptionName)
-        {
-            if(substr($sOptionName, 0, $nNameLength) === $sName)
-            {
-                unset($aValues[$sOptionName]);
-            }
-        }
-        return true;
+        // Delete the entry, and all the matching entries.
+        $sPrefix = $sName . '.';
+        $nPrefixLength = strlen($sPrefix);
+        $cFilter = fn($sOptionName) => $sOptionName !== $sName &&
+            substr($sOptionName, 0, $nPrefixLength) !== $sPrefix;
+        return array_filter($aValues, $cFilter, ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -234,16 +228,12 @@ class ConfigSetter
     public function unsetOptions(Config $xConfig, array $aNames): Config
     {
         $aValues = $xConfig->getValues();
-        $bChanged = false;
+        $nEntryCount = count($aValues);
         foreach($aNames as $sName)
         {
-            if($this->deleteEntries($aValues, $sName))
-            {
-                $bChanged = true;
-            }
+            $aValues = $this->deleteEntries($aValues, $sName);
         }
-
-        // $bChanged is false in no entry was deleted.
-        return new Config($aValues, $bChanged);
+        // The number of entries is the same if no entry was deleted.
+        return new Config($aValues, $nEntryCount !== count($aValues));
     }
 }
