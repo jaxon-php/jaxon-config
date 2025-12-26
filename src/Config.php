@@ -63,7 +63,7 @@ class Config
      */
     public function getOption(string $sName, $xDefault = null)
     {
-        return $this->aValues[$sName] ?? $xDefault;
+        return $sName === '' ? $this->aValues : $this->aValues[$sName] ?? $xDefault;
     }
 
     /**
